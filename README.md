@@ -25,24 +25,38 @@ Pick a movie and get **5 similar movies with posters**. It's a content-based rec
 
 ## Run the app
 
-1. Install **Python 3.10+** from [python.org](https://www.python.org/downloads/) (tick **Add Python to PATH**) and **Git** from [git-scm.com](https://git-scm.com/) (Git LFS comes with it on Windows).
+1. Install **Python 3.12+** from [python.org](https://www.python.org/downloads/) (on Windows, tick **Add Python to PATH**) and **Git** from [git-scm.com](https://git-scm.com/).
+   - Git LFS comes with Git on Windows. On macOS, run `brew install git-lfs`.
 2. Download the project:
    ```bash
    git lfs install
    git clone https://github.com/jhshreya/movie-recommender.git
    cd movie-recommender
    ```
-3. Install the libraries:
-   ```bash
-   py -m pip install -r requirements.txt
-   ```
-4. Start the app:
-   ```bash
-   py -m streamlit run app.py
-   ```
-5. Open **http://localhost:8501**, pick a movie and click **Show Recommendation**. Press **Ctrl + C** in the terminal to stop.
+3. Create and activate a virtual environment:
 
-> On macOS/Linux, use `pip3` and `streamlit run app.py` instead of the `py -m` commands.
+   **macOS/Linux**
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+
+   **Windows**
+   ```bash
+   py -m venv .venv
+   .venv\Scripts\activate
+   ```
+
+   Your prompt should now start with `(.venv)`. Activate it again each time you open a new terminal.
+4. Install the libraries:
+   ```bash
+   pip install -r requirements.txt
+   ```
+5. Start the app:
+   ```bash
+   streamlit run app.py
+   ```
+6. Open **http://localhost:8501**, pick a movie and click **Show Recommendation**. Press **Ctrl + C** in the terminal to stop.
 
 ## Run the notebook (rebuild the model)
 
@@ -50,7 +64,7 @@ You only need this if you change how the model is built. The app already uses th
 
 1. If `tmdb_5000_movies.csv` and `tmdb_5000_credits.csv` aren't in the folder, download them from [Kaggle](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata) and put them next to `notebook.ipynb`.
 2. In VS Code, install the **Python** and **Jupyter** extensions.
-3. Open `notebook.ipynb`, click **Select Kernel → Python Environments** and pick your Python.
+3. Open `notebook.ipynb`, click **Select Kernel → Python Environments** and pick **`.venv`** (the path ends in `movie-recommender/.venv`).
 4. Click **Run All**. The last cell prints `Saved model/movie_list.pkl and model/similarity.pkl`.
 5. Restart the app to use the new model.
 
@@ -58,14 +72,15 @@ You only need this if you change how the model is built. The app already uses th
 
 1. Push the project to GitHub (the `.pkl` files go through Git LFS).
 2. Go to [share.streamlit.io](https://share.streamlit.io) → **Create app** → **Deploy a public app from GitHub**.
-3. Repository `jhshreya/movie-recommender`, branch `main`, main file `app.py` → **Deploy**.
+3. Repository `jhshreya/movie-recommender`, branch `main`, main file `app.py`. Under **Advanced settings**, choose Python **3.12** or newer → **Deploy**.
 4. Every `git push` redeploys the app automatically.
 
 ## Troubleshooting
 
 | Problem | Fix |
 | --- | --- |
-| `pip` or `streamlit` "not recognized" | Use `py -m pip ...` and `py -m streamlit run app.py` |
+| `pip` or `streamlit` "not recognized", or `ModuleNotFoundError` | The virtual environment isn't active. Run the activate command from step 3 |
+| `error: externally-managed-environment` | You're installing outside the virtual environment. Activate `.venv` first (step 3) |
 | All posters show "No Poster" | Your network may block TMDB. Change DNS to `8.8.8.8`, use a VPN or another network, then restart the app |
 | `UnpicklingError: invalid load key` | The `.pkl` files didn't download. Run `git lfs pull` |
 | `FileNotFoundError` in the notebook | Put both CSV files in the same folder as the notebook |
