@@ -2,7 +2,7 @@
 
 Pick a movie and get **5 similar movies with posters**. It's a content-based recommender built with Python, scikit-learn and Streamlit.
 
-**Live demo:** https://your-app-name.streamlit.app  <!-- replace with your Streamlit link -->
+**Live demo:** https://your-app-name.streamlit.app](https://jhshreya-movie-recommender.streamlit.app/  <!-- replace with your Streamlit link -->
 
 ## How it works
 
